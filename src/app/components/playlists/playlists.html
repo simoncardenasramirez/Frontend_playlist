@@ -1,0 +1,50 @@
+<div class="page">
+  <header class="page__header">
+    <h1>Listas de reproducción</h1>
+    <!-- Llama a logout() y NO toca el formulario -->
+    <a class="link" (click)="logout()">Cerrar sesión</a>
+  </header>
+
+  <!-- Crear nueva lista -->
+  <section class="card create-card">
+    <h2>Crear nueva lista</h2>
+    <div class="form-row">
+      <label>Nombre *</label>
+      <input [(ngModel)]="nombre" name="nombre" placeholder="Mi Playlist" />
+    </div>
+    <div class="form-row">
+      <label>Descripción</label>
+      <input [(ngModel)]="descripcion" name="descripcion" placeholder="Opcional" />
+    </div>
+    <!-- Asegura que NO dispare submit por defecto -->
+    <button class="btn" type="button" (click)="crear()">Crear</button>
+    <p class="message" *ngIf="mensaje">{{ mensaje }}</p>
+  </section>
+
+  <!-- Listado -->
+  <section class="list-panel card">
+    <div class="list-header">
+      <span>Total: {{ listas.length }}</span>
+      <button class="btn-outline" type="button" (click)="cargarListas()">Refrescar</button>
+    </div>
+
+    <div *ngIf="cargando" class="loading">Cargando listas...</div>
+
+    <div class="grid" *ngIf="!cargando">
+      <div class="item" *ngFor="let l of listas">
+        <div class="item__head">
+          <h3>{{ l.nombre }}</h3>
+        </div>
+        <p class="item__desc">{{ l.descripcion || 'Sin descripción' }}</p>
+        <div class="item__actions">
+          <a class="btn-link" [routerLink]="['/lists', l.nombre]">Ver detalle</a>
+          <button class="btn-danger" type="button" (click)="eliminar(l.nombre)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!cargando && listas.length === 0" class="empty">
+      Aún no hay listas. ¡Crea la primera!
+    </div>
+  </section>
+</div>
