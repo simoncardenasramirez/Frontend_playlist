@@ -1,28 +1,28 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ListaReproduccion } from '../models/playlist.models';
 import { Observable } from 'rxjs';
+import { ListaReproduccion } from '../models/playlist.models';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PlaylistService {
-  private http = inject(HttpClient);
-  private base = 'http://localhost:8080'; 
+@Injectable({ providedIn: 'root' })
+export class PlaylistsService {
+  // si tienes environments, cambia por environment.apiUrl
+  private api = 'http://localhost:8080';
+
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<ListaReproduccion[]> {
-    return this.http.get<ListaReproduccion[]>(`${this.base}/lists`);
+    return this.http.get<ListaReproduccion[]>(`${this.api}/lists`);
   }
 
-  getOne(nombre: string): Observable<ListaReproduccion> {
-    return this.http.get<ListaReproduccion>(`${this.base}/lists/${encodeURIComponent(nombre)}`);
+  getByName(name: string): Observable<ListaReproduccion> {
+    return this.http.get<ListaReproduccion>(`${this.api}/lists/${encodeURIComponent(name)}`);
   }
 
-  create(payload: ListaReproduccion): Observable<ListaReproduccion> {
-    return this.http.post<ListaReproduccion>(`${this.base}/lists`, payload);
+  createList(body: ListaReproduccion): Observable<ListaReproduccion> {
+    return this.http.post<ListaReproduccion>(`${this.api}/lists`, body);
   }
 
-  remove(nombre: string): Observable<void> {
-    return this.http.delete<void>(`${this.base}/lists/${encodeURIComponent(nombre)}`);
+  deleteByName(name: string): Observable<void> {
+    return this.http.delete<void>(`${this.api}/lists/${encodeURIComponent(name)}`);
   }
 }

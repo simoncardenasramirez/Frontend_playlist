@@ -1,5 +1,4 @@
 export interface Cancion {
-  id?: number;
   titulo: string;
   artista: string;
   album?: string;
@@ -11,5 +10,5 @@ export interface ListaReproduccion {
   id?: number;
   nombre: string;
   descripcion?: string;
-  canciones?: Cancion[];
+  canciones?: Cancion[]; 
 }
